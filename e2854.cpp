@@ -82,12 +82,18 @@ void solve()
         ds.merge(p1,p2);
     }
 
+    for(int i=0; i<m; i++)
+    {
+        ds.parent[i]=ds.find(ds.parent[i]);
+    }
+    
     
     int counter = 0;
     vector<int> parents;
     parents.reserve(m);
     
     vector<int>::iterator it;
+    
     for(int i=0;i<m;i++)
     {
         int p1 = ds.parent[i];
