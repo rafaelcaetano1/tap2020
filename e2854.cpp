@@ -105,7 +105,7 @@ void solve()
         }
     }
     
-    cout << counter;
+    cout << counter << "\n";
     
 };
 
