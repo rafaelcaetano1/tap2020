@@ -1,0 +1,107 @@
+#include <iostream>
+#include <vector>
+#include <list>
+#include <queue>
+#include <algorithm>
+
+using namespace std;
+
+typedef pair<int,int> pi;
+
+vector<list<pi>> graph;
+vector<int> parent;
+vector<int> sequence;
+
+int n,m;
+
+struct disjointSets
+{
+    vector<int> parent, rank;
+    //Constructor
+    disjointSets(int n)
+    {
+        parent.resize(n);
+        rank.resize(n);
+        
+        for (int i=0; i<n; i++)
+        {
+            parent[i] = i;
+        }
+    }
+        
+    int find(int u)
+    {
+        if (u != parent[u])
+        {
+            parent[u] = find(parent[u]);
+        }
+        return parent[u];
+    }
+        
+    void merge(int x, int y)
+    {
+        x = find(x), y = find(y);
+   
+        if(rank[x]>rank[y])
+            parent[y] = x;
+        else
+            parent[x] = y;
+        
+        if(rank[x]==rank[y])
+            rank[y]++;
+    }
+};
+
+void inputRead()
+{
+    cin >> n >> m;
+    
+    parent.resize(n,-2);
+    sequence.resize(n,0);
+    graph.resize(n);
+    
+    for(int i=0;i<m;i++)
+    {
+        int from, to, weight;
+        
+        graph[from].push_back(make_pair(weight,to));
+        graph[to].push_back(make_pair(weight,from));
+    }
+    
+};
+
+void bfs(int xs, int ys)
+{
+    int seq = 1;
+    queue<pair<int,int>> q;
+    
+    q.push({xs,ys});
+    parent[source]= -1;
+    sequence[source] = seq;
+    
+    while(!q.empty())
+    {
+        int v = q.front();
+        q.pop();
+        
+        list<pi>::iterator it;
+        
+        for(it=graph[v].begin();it!=graph[v].end();it++)
+        {
+            if(parent[it->second] == -2)
+            {
+                seq++;
+                q.push(it->second);
+                parent[it->second] = v;
+                sequence[it->second] = seq;
+            }
+        }
+    }
+}
+
+
+int main()
+{
+    return 0;
+
+}
