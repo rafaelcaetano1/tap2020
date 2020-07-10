@@ -9,7 +9,7 @@ typedef pair<int,pi> ppi;
 
 vector<ppi> edges;
 vector<ppi> mst;
-int n,m = 1;
+int n,m;
 
 struct disjointSets
 {
@@ -51,20 +51,17 @@ struct disjointSets
 
 void inputRead()
 {
-    cin >> m >> n;
-    if(m!=0 and n!=0)
-    {
-        edges.reserve(n);
-        mst.reserve(m-1);
+    edges.reserve(n);
+    mst.reserve(m-1);
     
-        for(int i=0;i<n;i++)
-        {
-            int x, y, z;
-            cin >> x >> y >> z;
+    for(int i=0;i<n;i++)
+    {
+        int x, y, z;
+        cin >> x >> y >> z;
         
-            edges.push_back(make_pair(z, make_pair(x,y)));
-        }
+        edges.push_back(make_pair(z, make_pair(x,y)));
     }
+    
 };
 
 void kruskal()
@@ -72,11 +69,11 @@ void kruskal()
     sort(edges.begin(),edges.end());
     disjointSets ds(m);
     
-    int c=0;
+    int c=1;
     
     vector<ppi>::iterator it;
     
-    for(it=edges.begin();c<n;it++)
+    for(it=edges.begin();c<m;it++)
     {
         int u = it->second.first;
         int v = it->second.second;
@@ -94,32 +91,33 @@ void kruskal()
     }
 }
 
-int custo_anterior, novo_custo;
+int long long custo_anterior, novo_custo;
 
 int main()
 {
-    do
+    while(cin >> m >> n, m!=0)
     {
         inputRead();
-        if(m==0 and n==0)
-            break;
         kruskal();
     
         vector<ppi>::iterator it;
         for(it=mst.begin();it!=mst.end();it++)
         {
-            int w = it->first;
+            int long long w = it->first;
             novo_custo += w;
 
         }
-        
-        vector<ppi>::iterator it2;
-        for(it2=edges.begin();it2!=edges.end();it2++)
+    
+        for(it=edges.begin();it!=edges.end();it++)
         {
-            int w = it2->first;
+            int long long w = it->first;
             custo_anterior += w;
+
         }
     
-        cout << custo_anterior-novo_custo;
-    } while(true);
+        cout << custo_anterior-novo_custo << "\n";
+        edges.clear();
+        mst.clear();
+
+    }
 }
