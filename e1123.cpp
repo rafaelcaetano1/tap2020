@@ -74,7 +74,11 @@ void dijkstra (int source)
                         break;
                     }
                 }
-                dist[v_aux] = weight + w_aux;
+                if(dist[v_aux] > weight + w_aux)
+                {
+                    dist[v_aux] = weight + w_aux;
+                }
+                
             }
         }
         
