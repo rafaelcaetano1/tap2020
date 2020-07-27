@@ -59,7 +59,7 @@ int main()
     {
         ll test;
         cin >> test;
-        cout << (isPrime(test) ? "Prime" : "Not prime") << endl;
+        cout << (isPrime(test) ? "Prime" : "Not Prime") << endl;
     }
     
     return 0;
