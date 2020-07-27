@@ -12,10 +12,11 @@ int l1,l2,l3;
 int main()
 {
 
-    while(cin >> m, m!=EOF)
+    while(cin >> m)
     {
         cin >> l1 >> l2 >> l3;
-        int long periodo = lcm(l3,lcm(l1,l2));
+        int a = lcm(l1,l2);
+        int long periodo = lcm(l3,a);
         cout << periodo-m << endl;
     }
     
