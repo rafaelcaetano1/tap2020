@@ -13,7 +13,8 @@ int main()
     
     cin >> n;
     lb = n/(log(n));
-    cout << lb << endl;
     ub = 1.25506*lb;
     cout << fixed << setprecision(1) << lb << " " << ub << endl;
+    
+    return 0;
 }
