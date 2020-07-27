@@ -18,18 +18,21 @@ bool isPythagorean(int a, int b, int c)
 
 int main()
 {
-    while(true)
+    while(cin >> a >> b >> c)
     {
-        cin >> a >> b >> c;
-        if(!isPythagorean(a,b,c))
-            cout << "tripla" << endl;
-            
         int d;
         d = gcd(a,b);
-        if(gcd(c,d)==1)
-            cout << "tripla pitagorica primitiva" << endl;
-        else
-            cout << "tripla pitagorica" << endl;
         
+        if(!isPythagorean(a,b,c))
+            cout << "tripla" << endl;
+        else
+        {
+            if(gcd(c,d)==1)
+                cout << "tripla pitagorica primitiva" << endl;
+            else
+                cout << "tripla pitagorica" << endl;
+        }
     }
+    
+    return 0;
 }
