@@ -20,7 +20,7 @@ void sieve(ll n)
     for(ll i=3; (i*i)<=n; i+=2)
         if(prime[i])
         {
-            for(ll j=i*i; j<n; j+=1)
+            for(ll j=i*i; j<n; j+=i)
                 prime[j]=0;
         }
     
