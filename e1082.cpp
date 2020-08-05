@@ -1,139 +1,102 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <map>
 
 using namespace std;
 
-typedef pair<int,int> pi;
-
-map<char,int> letras;
-
-int n,v,e;
-
-struct disjointSets
+int num_let (char c, vector<char> v)
 {
-    vector<int> parent, rank;
-    //Constructor
-    disjointSets(int n)
-    {
-        parent.resize(n,0);
-        rank.resize(n);
-        
-        for (int i=0; i<n; i++)
+    int i;
+    for(i=0;i<26;i++)
         {
-            parent[i] = i;
+            if(v[i]==c)
+                return i;
         }
-    }
-        
-    int find(int u)
-    {
-        if (u != parent[u])
-        {
-            parent[u] = find(parent[u]);
-        }
-        return parent[u];
-    }
-        
-    void merge(int x, int y)
-    {
-        x = find(x), y = find(y);
-   
-        if(rank[x]>rank[y])
-            parent[y] = x;
-        else
-            parent[x] = y;
-        
-        if(rank[x]==rank[y])
-            rank[y]++;
-    }
 };
 
-void solve()
-{
-    letras.insert(pair<char,int>('a',0));
-    letras.insert(pair<char,int>('b',1));
-    letras.insert(pair<char,int>('c',2));
-    letras.insert(pair<char,int>('d',3));
-    letras.insert(pair<char,int>('e',4));
-    letras.insert(pair<char,int>('f',5));
-    letras.insert(pair<char,int>('g',6));
-    letras.insert(pair<char,int>('h',7));
-    letras.insert(pair<char,int>('i',8));
-    letras.insert(pair<char,int>('j',9));
-    letras.insert(pair<char,int>('k',10));
-    letras.insert(pair<char,int>('l',11));
-    letras.insert(pair<char,int>('m',12));
-    letras.insert(pair<char,int>('n',13));
-    letras.insert(pair<char,int>('o',14));
-    letras.insert(pair<char,int>('p',15));
-    letras.insert(pair<char,int>('q',16));
-    letras.insert(pair<char,int>('r',17));
-    letras.insert(pair<char,int>('s',18));
-    letras.insert(pair<char,int>('t',19));
-    letras.insert(pair<char,int>('u',20));
-    letras.insert(pair<char,int>('v',21));
-    letras.insert(pair<char,int>('w',22));
-    letras.insert(pair<char,int>('x',23));
-    letras.insert(pair<char,int>('y',24));
-    letras.insert(pair<char,int>('z',25));
-    
-    cin >> v >> e;
-    
-    disjointSets ds(v);
-    
-    for(int i=0;i<e;i++)
-    {
-        char a, b;
-        cin >> a >> b;
-
-        int p1,p2;
-        p1 = letras[a];
-        p2 = letras[b];
-        
-        ds.merge(p1,p2);
-    }
-
-    for(int i=0; i<v; i++)
-    {
-        ds.parent[i]=ds.find(ds.parent[i]);
-    }
-    
-    
-    int counter = 0;
-    vector<int> parents;
-    parents.reserve(v);
-    
-    vector<int> letras_p;
-    letras_p.reserve(v); // cada elemento tem as "letras" do correspondente em parents
-    
-    vector<int>::iterator it;
-    
-    for(int i=0;i<v;i++)
-    {
-        int p1 = ds.parent[i];
-        it = find (parents.begin(), parents.end(), p1);
-        if(it==parents.end())
-        {
-            parents.push_back(p1);
-            counter++;
-        }
-        for(int j=0;j<v;j++)
-        {
-            if(ds.parent[j]==p1)
-            {
-                letras_p.push_back(j);
-            }
-        }
-    }
-    cout << "Case #1:" << endl;??
-    cout << letras[letras_p[0]]->first << endl;
-    cout << counter << " connected components\n\n";
-    
-};
-
-    
 int main()
 {
-    solve();
+    struct disjointSets
+    {
+        vector<int> parent, rank;
+        //Constructor
+        disjointSets(int n)
+        {
+            parent.resize(n);
+            rank.resize(n);
+            
+            for (int i=0; i<n; i++)
+            {
+                parent[i] = i;
+            }
+        }
+        
+        int find(int u)
+        {
+            if (u != parent[u])
+            {
+                parent[u] = find(parent[u]);
+            }
+            return parent[u];
+        }
+        
+        void merge(int x, int y)
+        {
+            x = find(x), y = find(y);
+            
+            if(rank[x]>rank[y])
+                parent[y] = x;
+            else
+                parent[x] = y;
+            
+            if(rank[x]==rank[y])
+                rank[y]++;
+        }
+    
+    };
+
+    int n, v, e, i, j = 0;
+
+    cin >> n;
+    
+    for(j=0;j<n;j++)
+    {
+    cin >> v >> e;
+    disjointSets d(v);
+    char a, b;
+    vector<char> letters = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+    
+        for(i=0;i<e;i++)
+        {
+            cin >> a >> b;
+            int na, nb;
+            na = num_let(a,letters);
+            nb = num_let(b,letters);
+            d.merge(na,nb);
+        }
+        for(int i=0;i<v;i++) d.parent[i]=d.find(i);
+
+        //checar o parent do primeiro, escrever todo mundo que tem igual, depois apagar e repetir o processo
+        int counter = 0;
+        cout << "Case #" << j+1 << ":\n";
+        while(not d.parent.empty())            //verifica se o vetor está vazio
+        {
+            counter++;
+            int parent1;
+            parent1 = d.parent[0];           //salva o parent do primeiro elemento
+            for(i=0;i<d.parent.size();i++)
+            {
+                if(d.parent[i]==parent1)    // escreve todos que tem o mesmo parent do primeiro elemento
+                {
+                    cout << letters[i] << ",";
+                    letters[i] = 'A';       // troca a letra escrita por uma flag
+                }
+            }
+            cout << "\n";
+            d.parent.erase(remove(d.parent.begin(),d.parent.end(),parent1),d.parent.end());
+            letters.erase(remove(letters.begin(),letters.end(),'A'),letters.end());
+        }
+    
+        cout << counter << " connected components\n\n";
+    }
 }
