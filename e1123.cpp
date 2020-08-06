@@ -40,11 +40,12 @@ void inputRead ()
     }
 }
 
+
 void dijkstra (int source)
 {
     // Min heap where: first = weight , second = vertex
     priority_queue <pi , vector <pi>, greater <pi>> pq;
-    pq.push( make_pair(0,source));
+    pq.push(make_pair(0,source));
 
     dist[source] = 0; // Distance from source to itself is 0
 
@@ -54,7 +55,6 @@ void dijkstra (int source)
     {
         int weight = pq.top().first;
         int v = pq.top().second;
-        
         pq.pop();
         if(visited[v]) continue; // Vertex already processed
         
@@ -74,9 +74,11 @@ void dijkstra (int source)
                         break;
                     }
                 }
-                if(dist[v_aux] > weight + w_aux)
+                if(dist[v_aux] > dist[v_aux-1] + w_aux)
                 {
-                    dist[v_aux] = weight + w_aux;
+                    parent[v_aux] = v_aux-1;
+                    dist[v_aux] = dist[v_aux-1] + w_aux;
+                    pq.push(make_pair(dist[it->second],it->second));
                 }
                 
             }
@@ -96,6 +98,8 @@ void dijkstra (int source)
         }
     }
 }
+
+
 
 void clear_all()
 {
