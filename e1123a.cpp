@@ -44,7 +44,7 @@ void outputWrite ()
 {
     for (int i = 0; i < 9; i++)
     {
-        cout << "(" << setw (2) << dist[i] << ") : " << i;
+        cout << setw (2) << i << " : (" << setw (2) << dist[i] << " vindo de " << parent[i] << endl;
         
         /*int j = parent[i];
         while (j != -1)
@@ -52,7 +52,7 @@ void outputWrite ()
             cout << " -> " << j;
             j = parent[j];
         }*/
-        cout << endl;
+        //cout << endl;
     }
 }
 
@@ -87,21 +87,25 @@ void dijkstra (int source)
             
             for(int v_aux = v+1;v_aux!=c;v_aux++)
             {
+                cout << "o ponto seguinte é " << v_aux << endl;
                 int w_aux;
                 for(it = graph[v_aux].begin(); it!=graph[v_aux].end();++it)
                 {
                     if(it->second == v_aux-1)
                     {
                         w_aux = it->first;
-                        cout << "a dist até " << it->second <<  " é " << w_aux << endl;
+                        cout << "a dist até " << v_aux <<  " é " << w_aux << endl;
                         break;
                     }
                 }
                 cout << "blz" << endl;
-                if(dist[v_aux] > weight + w_aux)
+                cout << "até agora dist pro " << v_aux << " é de "<< dist[v_aux] << endl;
+                cout << "o acumulado até o anterior é " << dist[v_aux-1] << endl;
+                if(dist[v_aux] > dist[v_aux-1] + w_aux)
                 {
-                    parent[it->second] = v;
-                    dist[v_aux] = weight + w_aux;
+                    parent[v_aux] = v_aux-1;
+                    dist[v_aux] = dist[v_aux-1] + w_aux;
+                    cout << dist[v_aux] << endl;//aaaaaaa
                     pq.push(make_pair(dist[it->second],it->second));
                 }
                 
@@ -121,7 +125,7 @@ void dijkstra (int source)
                 }
             }
         }
-        cout << "distancia pro destino " << dist[2] << endl;
+        cout << "distancia pro destino " << dist[3] << endl;
         outputWrite();
     }
 }
