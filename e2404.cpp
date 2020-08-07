@@ -61,7 +61,7 @@ void inputRead()
         int u, v, c;
         cin >> u >> v >> c;
         
-        edges.push_back(make_pair(c, make_pair(u,v)));
+        edges.push_back(make_pair(c, make_pair(u-1,v-1)));
     }
 };
 
@@ -98,7 +98,7 @@ int main()
     inputRead();
     kruskal();
     
-    int total;
+    int total = 0;
     vector<ppi>::iterator it;
     for(it=mst.begin();it!=mst.end();it++)
     {
