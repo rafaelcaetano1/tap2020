@@ -99,7 +99,9 @@ int main()
     {
         inputRead();
         kruskal();
-    
+        custo_anterior = 0;
+        novo_custo = 0;
+        
         vector<ppi>::iterator it;
         for(it=mst.begin();it!=mst.end();it++)
         {
@@ -118,6 +120,7 @@ int main()
         cout << custo_anterior-novo_custo << "\n";
         edges.clear();
         mst.clear();
-
+        custo_anterior = 0;
+        novo_custo = 0;
     }
 }
